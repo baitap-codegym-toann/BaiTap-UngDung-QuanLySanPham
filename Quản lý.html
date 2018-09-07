@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <table align="center" border="1" style="width: 600px;height: 60px; border-color: black;font-size: 20px">
+        <tr>
+            <td style="width: 110px;text-align: center">STT</td>
+            <td style="text-align: center">Tên sản phẩm</td>
+            <td style="text-align: center;width: 97px">
+                <button type="button"
+                        onclick="removeAll()">Remove All
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="table">
+</div>
+<div>
+    <table align="center" border="1" style="width: 600px;height: 60px; border-color: black;font-size: 20px">
+        <tr>
+            <td style="width: 110px;text-align: center">
+                <output id="lastProductSTT"></output>
+            </td>
+            <td style="text-align: center"><input id="inputAddProduct" type="text" value="" placeholder="Product Name">
+            </td>
+            <td style="width: 97px;text-align: center">
+                <button style="width: 66px" type="button" onclick="addValue()">Add</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    let bigData = [];
+    displayTable(bigData);
+
+    //array processor
+    function clearArr(array) {
+        for (let i = 0; i < array.length; i++) {
+            let cleanword = array[i].split(" ").join("");
+            if (cleanword === "") {
+                array.splice(i, 1);
+            }
+        }
+        return array;
+    }
+
+    //display function
+    function displayTable(arr) {
+        let tableShow = "";
+        for (let i = 0; i < arr.length; i++) {
+            tableShow = tableShow +
+                "<table align=\"center\" border=\"1\" id=\"" + i + "\" " +
+                "style=\"width: 600px;height: 60px; border-color: black;font-size: 20px\">" +
+                "<tr>" +
+                "<td style=\"width: 110px;text-align: center\">" + (i + 1) + "</td>" +
+                "<td style=\"text-align: center\">" + arr[i] + "</td>" +
+                "<td style=\"width: 97px; text-align: center;\">" +
+                "<button type=\"button\" onclick=\"removeValue(" + i + ")\">Remove</button>" +
+                "<button type=\"button\" onclick=\"parsteInputTable(" + i + ")\" style=\"width: 66px;\">Edit</button>" +
+                "</td>" +
+                "</tr>" +
+                "</table>";
+        }
+        document.getElementById("table").innerHTML = tableShow;
+        document.getElementById("lastProductSTT").innerHTML = (bigData.length + 1);
+    }
+
+    function parsteInputTable(tableID) {
+        let stt = tableID + 1;
+        document.getElementById((tableID + "")).innerHTML =
+            "<tr>" +
+            "<td style=\"width: 110px;text-align: center\">" + stt + "</td>" +
+            "<td style=\"text-align: center\">" +
+            "<input type=\"text\" placeholder=\"Change Product Name\" id=\"inputChange\" value=\"\">" +
+            "</td>" +
+            "<td style=\"text-align: center;width: 97px\">" +
+            "<button type=\"button\"" +
+            " onclick=\"editValue(" + tableID + ")\">finish Edit" +
+            "</button>" +
+            "</td>" +
+            "</tr>";
+    }
+
+
+    //bigData function
+    function removeAll() {
+        bigData = [];
+        displayTable(bigData);
+    }
+
+    function addValue() {
+        bigData.push(document.getElementById("inputAddProduct").value);
+        document.getElementById("inputAddProduct").value = "";
+        bigData = clearArr(bigData);
+        displayTable(bigData);
+    }
+
+    function removeValue(a) {
+        bigData.splice(a, 1);
+        displayTable(bigData);
+    }
+
+    function editValue(a) {
+        bigData[a] = document.getElementById("inputChange").value;
+        if (bigData.length>clearArr(bigData).length) {
+            let confirmDel = confirm("are you sure?, input nothing will delete the value");
+            if (confirmDel === false){return;}
+        }
+            clearArr(bigData);
+            displayTable(bigData);
+    }
+
+
+</script>
+</body>
+</html>
