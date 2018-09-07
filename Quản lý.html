@@ -84,6 +84,9 @@
             "</button>" +
             "</td>" +
             "</tr>";
+        document.getElementById((tableID + "")).addEventListener("keydown", function (ev) {
+            if (ev.key === "Enter"){editValue(tableID);}
+        });
     }
 
 
@@ -116,6 +119,10 @@
     }
 
 
+    //Sự kiện bàn phím
+    document.getElementById("inputAddProduct").addEventListener("keydown",function (e) {
+        if (e.key === "Enter"){addValue();}
+    });
 </script>
 </body>
 </html>
